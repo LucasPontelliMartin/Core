@@ -1,10 +1,13 @@
 const router = require('express').Router();
 const Cliente = require('../models/Cliente');
 const jwt = require('jsonwebtoken');
-const SECRET = 'AgroTI_Token'
+const SECRET = 'AgroTI_Token';
+
+
 
 function authentication(req, res, next){
     const token = req.headers['authorization'];
+    console.log(token);
     jwt.verify(token, SECRET, (err, decoded) =>{
         if(err) return res.status(401).json({isSuccess: false,
         data: null,
