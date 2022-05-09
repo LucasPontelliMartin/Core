@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const app = express();
 var cors = require('cors')
 
+const clienteRoutes = require('./routes/ClienteRoutes');
+const perfilRoutes = require('./routes/PerfilRoutes');
 
 
 
@@ -28,10 +30,8 @@ app.use((req, res, next) => {
 
 
 // rotas API
-const clienteRoutes = require('./routes/ClienteRoutes');
-
 app.use('/cliente', clienteRoutes);
-
+app.use('/perfil', perfilRoutes);
 
 // rota Inicial (endpoint)
 app.get('/', (req, res) =>{

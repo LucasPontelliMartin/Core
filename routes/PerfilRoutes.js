@@ -22,10 +22,10 @@ router.get('/', authentication, async (req, res) => {
 
     try {
         
-        const Perfil = await Perfil.find();
+        const perfil = await Perfil.find();
 
 
-        res.status(200).json({isSuccess: true, data: Perfil, message: null});
+        res.status(200).json({isSuccess: true, data: perfil, message: null});
 
     } catch (error) {
         res.status(500).json({message: error})
@@ -39,9 +39,9 @@ router.get('/Perfil=:perfil', authentication, async (req, res) => {
 
     try {
         
-        const Perfil = await Perfil.findOne({usuario: user});
+        const perfil = await Perfil.findOne({usuario: user});
         
-        if(!Perfil)
+        if(!perfil)
             res.status(200).json({isSuccess: true, data: Perfil, message: 'Nenhum Perfil encontrado'});
 
 
@@ -78,9 +78,9 @@ router.post('/Cadastro', authentication, async (req, res) => {
 
     const { nome, identificador} = req.body;
 
-    const Perfil = { nome, identificador };
+    const perfil = { nome, identificador };
 
-
+    console.log(res)
     //create
     try {
         
@@ -90,12 +90,15 @@ router.post('/Cadastro', authentication, async (req, res) => {
         if(c || cl)
             res.status(500).json({isSuccess: false, data: Perfil, message: 'Perfil já cadastrado!'});
 
-        await Perfil.create(Perfil)
+        await Perfil.create(perfil)
 
         res.status(201).json({isSuccess: true, message: 'Cadastro realizado com sucesso!'});
 
+
     } catch (error) {
         res.status(500).json({message: error})
+        console.log(error)
+
     }
 });
 
@@ -105,19 +108,19 @@ router.put('/:id', authentication, async (req, res) => {
 
     const id = rq.params.id;
     const { nome, identificador } = req.body;
-    const Perfil = { nome, identificador };
+    const perfil = { nome, identificador };
 
     //update
     try {
         
-        const PerfilUpdate = await Perfil.updateOne({_id: id}, Perfil)
+        const perfilUpdate = await Perfil.updateOne({_id: id}, Perfil)
 
-        if(PerfilUpdate.matchedCount == 0){
-            res.status(422).json({isSuccess: false, data: PerfilUpdate, message: 'Nenhum Perfil encontrado'});
+        if(perfilUpdate.matchedCount == 0){
+            res.status(422).json({isSuccess: false, data: perfilUpdate, message: 'Nenhum Perfil encontrado'});
             return;
         }
 
-        res.status(200).json({isSuccess: true, data: PerfilUpdate, message: 'Update realizado com sucesso!'});
+        res.status(200).json({isSuccess: true, data: perfilUpdate, message: 'Update realizado com sucesso!'});
 
     } catch (error) {
         res.status(500).json({message: error})
@@ -132,10 +135,10 @@ router.delete('/:id', authentication, async (req, res) => {
 
     try {
         
-        const Perfil = await Perfil.findOne({_id: user});
+        const perfil = await Perfil.findOne({_id: user});
         
-        if(!Perfil){
-            res.status(422).json({isSuccess: false, data: Perfil, message: 'Nenhum Perfil encontrado'});
+        if(!perfil){
+            res.status(422).json({isSuccess: false, data: perfil, message: 'Nenhum Perfil encontrado'});
             return;
         }
 
